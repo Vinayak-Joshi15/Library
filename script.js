@@ -1,54 +1,44 @@
-const shelf = document.querySelector(".shelf");
+//document.addEventListener("DOMContentLoaded", function () {
+    const shelf = document.querySelector(".shelf");
+    const form = document.querySelector(".container");
 
-let list = [{name:"One Piece",author:"Eichiro Oda"},{name:"Naruto",author:"Masashi Kishimoto"}];
+    let list = [
+        { name: "One Piece", author: "Eichiro Oda" },
+        { name: "Naruto", author: "Masashi Kishimoto" }
+    ];
 
-
-function supplier(name,author){
-    this.name = name;
-    this.author = author;
-}
-
-
-function regenerate(){
-    shelf.replaceChildren();
-    list.forEach(element => {
-        let book = document.createElement("div");
-        book.classList = "Book";
-        book.textContent = element.name + "\n By\n" + element.author;
-        shelf.appendChild(book);
-    });
-}
-
-let form = document.querySelector(".container");
-
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    let inputNameField = document.querySelector("#name");
-        let inputAuthorField = document.querySelector("#author");
-
-        // Ensure the elements exist
-        if (!inputNameField || !inputAuthorField) {
-            console.error("One or more input fields not found!");
-            return;
-        }
-
-        let inputName = inputNameField.value.trim();
-        let inputAuthor = inputAuthorField.value.trim();
-
-        if (inputName === "" || inputAuthor === "") {
-            console.log("Both fields are required.");
-            return;
-        }
-    const newBook = new supplier(inputName,inputAuthor);
-
-    if(newBook instanceof supplier){
-        list.push(newBook);
-        console.log(list);
+    function Supplier(name, author) {
+        this.name = name;
+        this.author = author;
     }
+
+    function regenerate() {
+        shelf.replaceChildren();
+        list.forEach(element => {
+            let book = document.createElement("div");
+            book.classList.add("Book");
+            book.textContent = `${element.name}\nBy\n${element.author}`;
+            shelf.appendChild(book);
+        });
+    }
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    const title = document.getElementById('name');
+    const author = document.getElementById('author');
+
+    let titleInput = title.value;
+    let authorInput = author.value;
+
+    let book = new Supplier(titleInput,authorInput);
+    list.push(book);
     
+    document.getElementById('name').value = '';
+        document.getElementById('author').value = '';
+//});
+
     regenerate();
-
 });
-
 
 regenerate();
